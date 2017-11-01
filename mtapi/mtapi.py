@@ -148,6 +148,7 @@ class Mtapi(object):
 
                 direction = trip.direction[0]
                 route_id = trip.route_id
+                train_id = trip.train_id
 
                 for update in entity.trip_update.stop_time_update:
                     trip_stop = TripStop(update)
