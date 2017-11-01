@@ -33,7 +33,8 @@ class Trip(object):
             else:
                 return self._pb_data.trip_update.trip.route_id
 
-
+        import pdb
+        pdb.set_trace()
         return getattr(self._pb_data, name)
 
     def _direction(self):
