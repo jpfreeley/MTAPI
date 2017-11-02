@@ -210,6 +210,7 @@ Returns all stations on the provided train route.
 
 - **/by-id/[id],[id],[id]...**  
 Returns the stations with the provided IDs, in the order provided. IDs should be comma separated with no space characters.
+for example: http://localhost:5000/by-id/6fd9 <-- 6fd9 resolves to 42 St - Bryant Pk from data/staions.json
 
 - **/routes**  
 Lists available routes.  
