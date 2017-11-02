@@ -4,6 +4,7 @@ from operator import itemgetter
 import csv, math, json
 import threading
 import logging
+from pdb import set_trace as bp
 import google.protobuf.message
 from mtaproto.feedresponse import FeedResponse, Trip, TripStop, TZ
 from _mtapithreader import _MtapiThreader
@@ -133,6 +134,7 @@ class Mtapi(object):
         routes = defaultdict(set)
 
         for i, feed_url in enumerate(self._FEED_URLS):
+            logger.info(feed_url)
             mta_data = self._load_mta_feed(feed_url)
 
             if not mta_data:
@@ -142,13 +144,13 @@ class Mtapi(object):
 
             for entity in mta_data.entity:
                 trip = Trip(entity)
-
                 if not trip.is_valid():
                     continue
 
                 direction = trip.direction[0]
                 route_id = trip.route_id
-                #train_id = trip.train_id
+                train_id = trip.train_id
+                #bp()
 
                 for update in entity.trip_update.stop_time_update:
                     trip_stop = TripStop(update)

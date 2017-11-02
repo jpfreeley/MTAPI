@@ -1,6 +1,7 @@
 from mtaproto import nyct_subway_pb2
 from pytz import timezone
 import datetime
+from pdb import set_trace as bp
 
 TZ = timezone('US/Eastern')
 
@@ -9,7 +10,7 @@ class FeedResponse(object):
     def __init__(self, response_string):
         self._pb_data = nyct_subway_pb2.gtfs_realtime_pb2.FeedMessage()
         self._pb_data.ParseFromString(response_string)
-
+        #bp()
     def __getattr__(self, name):
 
         if name == 'timestamp':
@@ -32,14 +33,19 @@ class Trip(object):
                 return 'S'
             else:
                 return self._pb_data.trip_update.trip.route_id
+        elif name == 'train_id':
+            return self._train_id()
 
-        import pdb
-        pdb.set_trace()
+        
         return getattr(self._pb_data, name)
 
     def _direction(self):
         trip_meta = self._pb_data.trip_update.trip.Extensions[nyct_subway_pb2.nyct_trip_descriptor]
         return nyct_subway_pb2.NyctTripDescriptor.Direction.Name(trip_meta.direction)
+
+    def _train_id(self):
+        trip_meta = self._pb_data.trip_update.trip.Extensions[nyct_subway_pb2.nyct_trip_descriptor]
+        return trip_meta.train_id
 
     def is_valid(self):
         return bool(self._pb_data.trip_update)
